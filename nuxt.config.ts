@@ -4,11 +4,18 @@ export default defineNuxtConfig({
 
   experimental: {
     headNext: true,
-    typedPages: true,
   },
 
   runtimeConfig: {
-    cover: process.env.NUXT_ITUNES_SEARCH_API,
+    cover: '',
+    cloudflare: {
+      download: '',
+      endpoint: '',
+      credentials: {
+        key: '',
+        secret: '',
+      },
+    },
   },
 
   modules: ['@nuxt/ui'],

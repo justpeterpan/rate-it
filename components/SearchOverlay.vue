@@ -26,7 +26,6 @@ function clearSearch() {
 }
 
 function selectAlbum(item: Results[0]) {
-  console.log(item.artistName, item.collectionName, item.releaseDate)
   selectedAlbum.value = {
     artist: item.artistName,
     album: item.collectionName,

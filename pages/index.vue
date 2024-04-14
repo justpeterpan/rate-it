@@ -1,100 +1,70 @@
 <script setup lang="ts">
-import { toPng } from 'html-to-image'
-
+const route = useRoute()
 const selectedAlbum = useAlbum()
 const isOpen = useSearch()
 
-const notes = ref('')
-const screenshot = ref()
+const notes = ref(route.query.notes ?? '')
+const rating = ref(route.query.rating ?? 0)
 
-const screenshotRef = ref('')
-const screenshotBlob = ref()
-const sharedData = ref()
+const screenshotTaken = ref('')
 
-function captureContent() {
-  toPng(screenshot.value)
-    .then((canvas) => {
-      const link = document.createElement('a')
-      link.download = 'review.png'
-      link.href = canvas
-      link.click()
-    })
-    .catch((error) => {
-      console.error('oops, something went wrong!', error)
-    })
-}
-
-function dataURLtoBlob(dataurl) {
-  var arr = dataurl.split(','),
-    mime = arr[0].match(/:(.*?);/)[1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n)
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n)
-  }
-  return new Blob([u8arr], { type: mime })
-}
-
-function shareReview() {
-  toPng(screenshot.value)
-    .then((canvas) => {
-      console.log(canvas)
-      screenshotRef.value = canvas
-      const blob = dataURLtoBlob(canvas)
-      const filesArray = [
-        new File([blob], 'review.jpg', {
-          type: 'image/jpeg',
-        }),
-      ]
-      const shareData = {
-        files: filesArray,
-      }
-      screenshotBlob.value = blob
-      sharedData.value = shareData
-      // navigator.share(shareData)
-    })
-    .catch((error) => {
-      console.error('oops, something went wrong!', error)
-    })
+async function takeServerScreenshot() {
+  const data = await $fetch('/api/screenshot', {
+    query: {
+      artist: selectedAlbum.value.artist,
+      album: selectedAlbum.value.album,
+      date: selectedAlbum.value.date,
+      cover: selectedAlbum.value.cover,
+      rating: rating.value,
+      notes: notes.value,
+    },
+  })
+  screenshotTaken.value = data
 }
 
 const ratings = [
-  { label: 'hate it' },
-  { label: 'meh' },
-  { label: 'like it' },
-  { label: 'love it' },
+  { label: '😠' }, // hate it
+  { label: '😐' }, // meh
+  { label: '😊' }, // like it
+  { label: '😍' }, // love it
 ]
 
 function selectRating(index: number) {
-  const rating = ratings[index]
-  if (rating.label === 'love it') {
-    console.log('yay')
-  }
+  rating.value = index
 }
 </script>
 
 <template>
   <div>
     <SearchOverlay />
-    <div ref="screenshot">
+    <div id="screenshot">
       <UCard class="my-4">
         <div class="flex">
           <Placeholder
             class="w-56 h-56 cursor-pointer border-2"
-            v-if="!selectedAlbum.cover"
+            v-if="!route.query.cover && !selectedAlbum.cover"
             @click="isOpen = true"
           />
           <img
-            :src="selectedAlbum.cover"
+            :src="
+              typeof route.query.cover === 'string'
+                ? route.query.cover
+                : route.query.cover?.[0] || (selectedAlbum.cover ?? '')
+            "
             alt="album artwork"
             v-else
             class="w-56 h-56 rounded-lg"
           />
-          <section class="ml-5" v-if="selectedAlbum.cover">
-            <h2 class="text-3xl font-bold">{{ selectedAlbum.artist }}</h2>
-            <h3 class="text-xl font-semibold">{{ selectedAlbum.album }}</h3>
-            <p class="text-gray-500">{{ selectedAlbum.date }}</p>
+          <section class="ml-5">
+            <h2 class="text-3xl font-bold">
+              {{ route.query.artist || (selectedAlbum.artist ?? '') }}
+            </h2>
+            <h3 class="text-xl font-semibold">
+              {{ route.query.album || selectedAlbum.album }}
+            </h3>
+            <p class="text-gray-500">
+              {{ route.query.date || selectedAlbum.date }}
+            </p>
             <UTextarea
               v-model="notes"
               placeholder="Write your review..."
@@ -104,23 +74,19 @@ function selectRating(index: number) {
             />
           </section>
         </div>
-        <UTabs :items="ratings" @change="selectRating" class="mt-10" />
+        <UTabs
+          :items="ratings"
+          @change="selectRating"
+          class="mt-10"
+          :default-index="Number(route.query.rating) || 0"
+        />
       </UCard>
     </div>
     <section class="flex gap-4">
-      <UButton
-        label="Download Review"
-        @click="captureContent"
-        v-if="selectedAlbum.artist"
-      />
-      <UButton
-        label="Share Review"
-        @click="shareReview"
-        v-if="selectedAlbum.artist"
-      />
+      <UButton label="Take Server Screenshot" @click="takeServerScreenshot" />
     </section>
-    <img :src="screenshotRef" alt="cover" />
-    <img :src="screenshotBlob" alt="cover" />
-    <pre>{{ sharedData }}</pre>
+    <div v-if="screenshotTaken" class="mt-4">
+      <img :src="screenshotTaken" alt="screenshot of above site" />
+    </div>
   </div>
 </template>

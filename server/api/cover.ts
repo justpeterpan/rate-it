@@ -15,7 +15,6 @@ export type Results = v.Input<typeof resultSchema>[]
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
-  console.log(query.search)
   const searchResults = await $fetch<string>(
     `${useRuntimeConfig().cover}?term=${
       query.search
