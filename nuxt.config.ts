@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    dev: '',
     cover: '',
     cloudflare: {
       download: '',

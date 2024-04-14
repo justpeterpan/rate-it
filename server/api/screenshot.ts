@@ -1,5 +1,6 @@
-import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-core'
 import fs from 'fs'
+import chrome from 'chrome-aws-lambda'
 
 import {
   S3Client,
@@ -8,6 +9,7 @@ import {
 } from '@aws-sdk/client-s3'
 
 const runtimeConfig = useRuntimeConfig()
+const exePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 
 const S3 = new S3Client({
   region: 'auto',
@@ -22,7 +24,11 @@ export default defineEventHandler(async (event) => {
   const { artist, album, date, cover, rating, notes } = getQuery(event)
 
   console.log('taking screenshot')
-  const browser = await puppeteer.launch({ headless: 'shell' })
+  const browser = await puppeteer.launch({
+    args: runtimeConfig.dev ? [] : chrome.args,
+    executablePath: runtimeConfig.dev ? exePath : await chrome.executablePath,
+    headless: runtimeConfig.dev ? true : chrome.headless,
+  })
   const page = await browser.newPage()
   await page.goto(
     `http://localhost:3000?artist=${artist}&album=${album}&date=${date}&cover=${cover}&rating=${rating}&notes=${notes}`,
