@@ -20,12 +20,25 @@ function captureContent() {
     })
 }
 
+function dataURLtoBlob(dataurl) {
+  var arr = dataurl.split(','),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n)
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n)
+  }
+  return new Blob([u8arr], { type: mime })
+}
+
 function shareReview() {
   toPng(screenshot.value)
     .then((canvas) => {
       console.log(canvas)
+      const blob = dataURLtoBlob(canvas)
       const filesArray = [
-        new File([canvas], 'meme.jpg', {
+        new File([blob], 'meme.jpg', {
           type: 'image/jpeg',
           lastModified: new Date().getTime(),
         }),
