@@ -11,5 +11,5 @@ export default defineNuxtConfig({
     cover: process.env.NUXT_ITUNES_SEARCH_API,
   },
 
-  modules: ["@nuxt/ui"],
+  modules: ['@nuxt/ui'],
 })
