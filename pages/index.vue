@@ -7,6 +7,10 @@ const isOpen = useSearch()
 const notes = ref('')
 const screenshot = ref()
 
+const screenshotRef = ref('')
+const screenshotBlob = ref()
+const sharedData = ref()
+
 function captureContent() {
   toPng(screenshot.value)
     .then((canvas) => {
@@ -36,17 +40,19 @@ function shareReview() {
   toPng(screenshot.value)
     .then((canvas) => {
       console.log(canvas)
+      screenshotRef.value = canvas
       const blob = dataURLtoBlob(canvas)
       const filesArray = [
-        new File([blob], 'meme.jpg', {
+        new File([blob], 'review.jpg', {
           type: 'image/jpeg',
-          lastModified: new Date().getTime(),
         }),
       ]
       const shareData = {
         files: filesArray,
       }
-      navigator.share(shareData)
+      screenshotBlob.value = blob
+      sharedData.value = shareData
+      // navigator.share(shareData)
     })
     .catch((error) => {
       console.error('oops, something went wrong!', error)
@@ -113,5 +119,8 @@ function selectRating(index: number) {
         v-if="selectedAlbum.artist"
       />
     </section>
+    <img :src="screenshotRef" alt="cover" />
+    <img :src="screenshotBlob" alt="cover" />
+    <pre>{{ sharedData }}</pre>
   </div>
 </template>
