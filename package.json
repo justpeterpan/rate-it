@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.554.0",
+    "@sparticuz/chromium": "^123.0.1",
     "chrome-aws-lambda": "^10.1.0",
     "nuxt": "^3.11.2",
     "puppeteer-core": "^22.6.4",

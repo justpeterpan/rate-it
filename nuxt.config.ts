@@ -8,6 +8,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     dev: '',
+    url: '',
     cover: '',
     cloudflare: {
       download: '',

@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer-core'
 import fs from 'fs'
-import chrome from 'chrome-aws-lambda'
+import chrome from '@sparticuz/chromium'
 
 import {
   S3Client,
@@ -26,12 +26,18 @@ export default defineEventHandler(async (event) => {
   console.log('taking screenshot')
   const browser = await puppeteer.launch({
     args: runtimeConfig.dev ? [] : chrome.args,
-    executablePath: runtimeConfig.dev ? exePath : await chrome.executablePath,
-    headless: runtimeConfig.dev ? true : chrome.headless,
+    executablePath: runtimeConfig.dev ? exePath : await chrome.executablePath(),
+    headless: true,
   })
   const page = await browser.newPage()
   await page.goto(
-    `http://localhost:3000?artist=${artist}&album=${album}&date=${date}&cover=${cover}&rating=${rating}&notes=${notes}`,
+    `${runtimeConfig.url}/?artist=${encodeURIComponent(
+      artist
+    )}&album=${encodeURIComponent(album)}&date=${encodeURIComponent(
+      date
+    )}&cover=${encodeURIComponent(cover)}&rating=${encodeURIComponent(
+      rating
+    )}&notes=${encodeURIComponent(notes)}`,
     { waitUntil: 'networkidle2' }
   )
   await page.emulateMediaFeatures([
@@ -55,3 +61,5 @@ export default defineEventHandler(async (event) => {
 
   return `${runtimeConfig.cloudflare.download}/${fileName}`
 })
+
+// https://rate-it-rho.vercel.app/?artist=Crosby, Stills & Nash&album=Crosby, Stills & Nash&date=23.01.2006&cover=https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a0/ad/8a/a0ad8a5f-6805-b41a-c076-ee1f779d2a42/603497928323.jpg/600x600bb.jpg&rating=2&notes=
