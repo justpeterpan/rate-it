@@ -1,14 +1,26 @@
 <script setup lang="ts">
+const colorMode = useColorMode()
+const isDark = computed({
+  get() {
+    return colorMode.value === 'dark'
+  },
+  set() {
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+  },
+})
 const route = useRoute()
 const selectedAlbum = useAlbum()
 const isOpen = useSearch()
+const isLoading = ref(false)
 
 const notes = ref(route.query.notes ?? '')
 const rating = ref(route.query.rating ?? 0)
+const errorMsg = ref('')
 
 const screenshotTaken = ref('')
 
 async function takeServerScreenshot() {
+  isLoading.value = true
   const data = await $fetch('/api/screenshot/', {
     query: {
       artist: selectedAlbum.value.artist,
@@ -17,9 +29,29 @@ async function takeServerScreenshot() {
       cover: selectedAlbum.value.cover,
       rating: rating.value,
       notes: notes.value,
+      theme: isDark.value ? 'dark' : 'light',
     },
   })
   screenshotTaken.value = data
+  try {
+    const image = await $fetch(data)
+    const files = [new File([image], 'review.jpg', { type: 'image/jpeg' })]
+    if (navigator.share) {
+      navigator
+        .share({
+          files,
+        })
+        .catch((e) => {
+          console.error(e)
+          errorMsg.value = e
+          isLoading.value = false
+        })
+    }
+  } catch (e) {
+    console.error(e)
+    isLoading.value = false
+  }
+  isLoading.value = false
 }
 
 const ratings = [
@@ -37,11 +69,11 @@ function selectRating(index: number) {
 <template>
   <div>
     <SearchOverlay />
-    <div id="screenshot">
-      <UCard class="my-4">
-        <div class="flex">
+    <div id="screenshot" class="p-1">
+      <UCard class="@container">
+        <div class="flex flex-col @md:flex-row gap-4">
           <Placeholder
-            class="w-56 h-56 cursor-pointer border-2"
+            class="w-full @md:w-56 @md:h-56 cursor-pointer border-2"
             v-if="!route.query.cover && !selectedAlbum.cover"
             @click="isOpen = true"
           />
@@ -53,9 +85,9 @@ function selectRating(index: number) {
             "
             alt="album artwork"
             v-else
-            class="w-56 h-56 rounded-lg"
+            class="w-full @md:w-56 @md:h-56 rounded-lg"
           />
-          <section class="ml-5">
+          <section class="">
             <h2 class="text-3xl font-bold">
               {{ route.query.artist || (selectedAlbum.artist ?? '') }}
             </h2>
@@ -67,10 +99,13 @@ function selectRating(index: number) {
             </p>
             <UTextarea
               v-model="notes"
-              placeholder="Write your review..."
+              placeholder="✎ Write your review..."
               class="mt-4"
               :padded="false"
               variant="none"
+              :rows="1"
+              :maxrows="5"
+              autoresize
             />
           </section>
         </div>
@@ -82,10 +117,31 @@ function selectRating(index: number) {
         />
       </UCard>
     </div>
-    <section class="flex gap-4">
-      <UButton label="Take Server Screenshot" @click="takeServerScreenshot" />
+    <section class="@container p-1 mt-2">
+      <div class="flex gap-2">
+        <ClientOnly>
+          <UButton
+            :icon="
+              isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'
+            "
+            color="violet"
+            variant="outline"
+            aria-label="Theme"
+            @click="isDark = !isDark"
+          />
+          <template #fallback>
+            <div class="w-8 h-8" />
+          </template>
+        </ClientOnly>
+        <UButton
+          label="Share Review"
+          @click="takeServerScreenshot"
+          :loading="isLoading"
+          class="flex-grow @md:flex-grow-0 justify-center"
+        />
+      </div>
     </section>
-    <div v-if="screenshotTaken" class="mt-4">
+    <div v-if="screenshotTaken" class="mt-4 p-1 hidden md:block">
       <img :src="screenshotTaken" alt="screenshot of above site" />
     </div>
   </div>

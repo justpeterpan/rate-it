@@ -54,6 +54,7 @@ function selectAlbum(item: Results[0]) {
             autocomplete="off"
             :ui="{ icon: { trailing: { pointer: '' } } }"
             class="flex-grow-[2]"
+            @keydown.enter="search"
           >
             <template #trailing>
               <UButton

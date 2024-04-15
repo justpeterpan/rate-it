@@ -21,7 +21,7 @@ const S3 = new S3Client({
 })
 
 export default defineEventHandler(async (event) => {
-  const { artist, album, date, cover, rating, notes } = getQuery(event)
+  const { artist, album, date, cover, rating, notes, theme } = getQuery(event)
 
   console.log('taking screenshot')
   const browser = await puppeteer.launch({
@@ -30,6 +30,7 @@ export default defineEventHandler(async (event) => {
     headless: true,
   })
   const page = await browser.newPage()
+  await page.setViewport({ width: 430, height: 932 })
   await page.goto(
     `${runtimeConfig.url}/?artist=${encodeURIComponent(
       artist
@@ -41,7 +42,7 @@ export default defineEventHandler(async (event) => {
     { waitUntil: 'networkidle2' }
   )
   await page.emulateMediaFeatures([
-    { name: 'prefers-color-scheme', value: 'dark' },
+    { name: 'prefers-color-scheme', value: `${theme}` },
   ])
   const fileNameWithTmp = `/tmp/${artist}-${album}-${new Date().toISOString()}.png`
   const fileNameWithoutTmp = `${artist}-${album}-${new Date().toISOString()}.png`
