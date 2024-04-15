@@ -43,15 +43,16 @@ export default defineEventHandler(async (event) => {
   await page.emulateMediaFeatures([
     { name: 'prefers-color-scheme', value: 'dark' },
   ])
-  const fileName = `${artist}-${album}-${new Date().toISOString()}.png`
+  const fileNameWithTmp = `/tmp/${artist}-${album}-${new Date().toISOString()}.png`
+  const fileNameWithoutTmp = `${artist}-${album}-${new Date().toISOString()}.png`
   const element = await page.waitForSelector('#screenshot')
-  await element.screenshot({ path: fileName })
-  const fileStream = fs.readFileSync(fileName)
+  await element.screenshot({ path: fileNameWithTmp })
+  const fileStream = fs.readFileSync(fileNameWithTmp)
   const uploadParams: PutObjectCommandInput = {
     Bucket: 'rate',
-    Key: fileName,
+    Key: fileNameWithoutTmp,
     Body: fileStream,
-    ContentLength: fs.statSync(fileName).size,
+    ContentLength: fs.statSync(fileNameWithTmp).size,
     ContentType: 'application/octet-stream',
   }
 
@@ -59,7 +60,5 @@ export default defineEventHandler(async (event) => {
   await S3.send(cmd)
   await browser.close()
 
-  return `${runtimeConfig.cloudflare.download}/${fileName}`
+  return `${runtimeConfig.cloudflare.download}/${fileNameWithoutTmp}`
 })
-
-// https://rate-it-rho.vercel.app/?artist=Crosby, Stills & Nash&album=Crosby, Stills & Nash&date=23.01.2006&cover=https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a0/ad/8a/a0ad8a5f-6805-b41a-c076-ee1f779d2a42/603497928323.jpg/600x600bb.jpg&rating=2&notes=

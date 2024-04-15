@@ -9,7 +9,7 @@ const rating = ref(route.query.rating ?? 0)
 const screenshotTaken = ref('')
 
 async function takeServerScreenshot() {
-  const data = await $fetch('/api/screenshot', {
+  const data = await $fetch('/api/screenshot/', {
     query: {
       artist: selectedAlbum.value.artist,
       album: selectedAlbum.value.album,
@@ -23,10 +23,10 @@ async function takeServerScreenshot() {
 }
 
 const ratings = [
-  { label: '😠' }, // hate it
-  { label: '😐' }, // meh
-  { label: '😊' }, // like it
-  { label: '😍' }, // love it
+  { label: 'hate it' }, // hate it
+  { label: 'meh' }, // meh
+  { label: 'like it' }, // like it
+  { label: 'love it' }, // love it
 ]
 
 function selectRating(index: number) {
@@ -60,10 +60,10 @@ function selectRating(index: number) {
               {{ route.query.artist || (selectedAlbum.artist ?? '') }}
             </h2>
             <h3 class="text-xl font-semibold">
-              {{ route.query.album || selectedAlbum.album }}
+              {{ route.query.album || (selectedAlbum.album ?? '') }}
             </h3>
             <p class="text-gray-500">
-              {{ route.query.date || selectedAlbum.date }}
+              {{ route.query.date || (selectedAlbum.date ?? '') }}
             </p>
             <UTextarea
               v-model="notes"
