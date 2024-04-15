@@ -43,7 +43,7 @@ function selectAlbum(item: Results[0]) {
 
 <template>
   <div>
-    <UModal v-model="isOpen">
+    <UModal v-model="isOpen" fullscreen>
       <div class="p-4">
         <section class="flex gap-4">
           <UInput
