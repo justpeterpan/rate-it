@@ -1,5 +1,5 @@
 <template>
-  <div class="m-4">
+  <div class="flex flex-col min-h-screen bg-black py-1">
     <NuxtPage />
   </div>
 </template>
