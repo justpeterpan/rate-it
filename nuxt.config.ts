@@ -21,10 +21,4 @@ export default defineNuxtConfig({
   },
 
   modules: ['@nuxt/ui'],
-  app: {
-    pageTransition: {
-      name: 'fade',
-      mode: 'out-in',
-    },
-  },
 })

@@ -1,28 +1,47 @@
 <script setup lang="ts">
-const props = defineProps({
-  config: Boolean,
-  bg: String,
-  opacityRgba: Number,
-})
+const props = withDefaults(
+  defineProps<{
+    config?: boolean
+    bg?: string
+    opacityRgba?: number
+    album?: Album
+  }>(),
+  {
+    config: false,
+    bg: 'violet',
+    album: () => ({
+      artist: 'artist',
+      title: 'title',
+      date: 'release date',
+      rating: 5,
+      review: 'write your review',
+      image: '',
+    }),
+  }
+)
 
-const bgColors: Record<string, string> = {
-  green: 'bg-green-300',
-  violet: 'bg-violet-300',
-  lime: 'bg-lime-300',
-  yellow: 'bg-yellow-300',
-  blue: 'bg-blue-300',
-  sky: 'bg-sky-300',
+type Album = {
+  artist?: string
+  title?: string
+  date?: string
+  image?: string
+  rating: number
+  review?: string
 }
 
 const bgColorsRgb: Record<string, string> = {
   green: '134, 239, 172',
   violet: '196, 181, 253',
+  lime: '190, 242, 100',
+  yellow: '253, 224, 71',
+  blue: '147, 197, 253',
+  sky: '125, 211, 252',
 }
 </script>
 
 <template>
   <div
-    class="flex flex-col text-black p-20 rounded-xl group relative transition duration-500 ease-in-out"
+    class="flex flex-col text-black p-20 rounded-xl group relative transition duration-500 ease-in-out items-center"
     :class="[
       { 'cursor-auto': props.config },
       props.config ? 'bg-white' : 'bg-white hover:bg-violet-300',
@@ -37,18 +56,28 @@ const bgColorsRgb: Record<string, string> = {
     >
       <figure>
         <img
-          src="https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/68/0c/71/680c7107-f7c2-6e55-8ea9-09b935620654/5056321637703.png/600x600bb.jpg"
+          :src="
+            props.album.image ??
+            'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/68/0c/71/680c7107-f7c2-6e55-8ea9-09b935620654/5056321637703.png/600x600bb.jpg'
+          "
           alt=""
-          class="rounded-3xl border-2 border-black grayscale group-hover:grayscale-0 transition duration-500 ease-in-out"
+          class="rounded-3xl border-2 border-black group-hover:grayscale-0 transition duration-500 ease-in-out"
+          :class="[{ 'filter grayscale': !props.config }]"
         />
       </figure>
       <section class="flex flex-col items-center">
-        <h2 class="text-2xl uppercase mt-8 font-semibold">Burial</h2>
-        <h3 class="text-2xl uppercase font-light">Antidawn</h3>
-        <h4 class="text-xl uppercase font-extralight">06.01.2022</h4>
-        <div class="text-lg pt-2 italic font-thin">"Masterpiece"</div>
+        <h2 class="text-2xl uppercase mt-8 font-semibold">
+          {{ props.album.artist }}
+        </h2>
+        <h3 class="text-2xl uppercase font-light">{{ props.album.title }}</h3>
+        <h4 class="text-xl uppercase font-extralight">
+          {{ props.album.date }}
+        </h4>
+        <div class="text-lg pt-2 italic font-thin">
+          "{{ props.album.review }}"
+        </div>
         <div class="text-9xl font-thin">
-          ****<span class="text-9xl font-thin text-neutral-300">*</span>
+          {{ '*'.repeat(props.album.rating) }}
         </div>
       </section>
     </div>

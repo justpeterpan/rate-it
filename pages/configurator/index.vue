@@ -1,115 +1,74 @@
 <script setup lang="ts">
+const isOpen = useSearch()
+const selectedAlbum = useAlbum()
 const selectedColor = ref('violet')
 const colorRangeValue = ref(255)
 const calculatedOpacity = computed(() => colorRangeValue.value / 255)
-const colorGreen = ref('134, 239, 172')
+const colors = ['green', 'violet', 'lime', 'yellow', 'blue', 'sky']
+const albumReview = ref('')
 
-const textColors: Record<string, string> = {
-  green: 'text-green-300',
-  violet: 'text-violet-300',
-  lime: 'text-lime-300',
-  yellow: 'text-yellow-300',
-  blue: 'text-blue-300',
-  sky: 'text-sky-300',
-}
-
-const bgColors: Record<string, string> = {
-  green: 'bg-green-300',
-  violet: 'bg-violet-300',
-  lime: 'bg-lime-300',
-  yellow: 'bg-yellow-300',
-  blue: 'bg-blue-300',
-  sky: 'bg-sky-300',
-}
+console.log('selectedAlbum', selectedAlbum.value)
 
 function selectColor(color: string) {
   selectedColor.value = color
 }
 </script>
 <template>
-  <div class="grid grid-cols-2 min-h-screen gap-1">
+  <div>
+    <SearchOverlay />
     <div
-      class="bg-white rounded-xl flex flex-col transition duration-500 ease-in-out"
+      class="grid grid-flow-row sm:grid-flow-col sm:grid-cols-2 min-h-screen gap-1"
     >
-      <TemplateMnml
-        config
-        :bg="selectedColor"
-        :opacity-rgba="calculatedOpacity"
-      />
-    </div>
-    <div class="bg-white rounded-xl flex flex-col p-20">
-      <h1 class="text-7xl font-extrabold">New Album Review</h1>
-      <section class="flex flex-row mt-10 cursor-pointer">
+      <div
+        class="bg-white rounded-xl flex flex-col transition duration-500 ease-in-out"
+      >
+        <TemplateMnml
+          config
+          :bg="selectedColor"
+          :opacity-rgba="calculatedOpacity"
+          :album="{
+            artist: selectedAlbum.artist ?? 'artist',
+            title: selectedAlbum.album ?? 'title',
+            date: selectedAlbum.date ?? '01.01.1970',
+            rating: 5,
+            review: albumReview || 'your review',
+            image:
+              selectedAlbum.cover ??
+              'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/68/0c/71/680c7107-f7c2-6e55-8ea9-09b935620654/5056321637703.png/600x600bb.jpg',
+          }"
+        />
+      </div>
+      <div class="bg-neutral-100 rounded-xl flex flex-col p-20">
+        <h1 class="text-7xl font-extrabold">New Album Review</h1>
         <div
-          @click="selectColor('green')"
-          class="rounded-full min-w-12 h-12 transition-[width] duration-500 ease-in-out appearance-none"
-          :class="[
-            selectedColor === 'green' ? 'w-full bg-white' : 'w-12 bg-green-300',
-          ]"
+          class="flex mt-10 h-12 w-full bg-white rounded-full justify-between items-center px-5 cursor-pointer"
+          @click="isOpen = true"
         >
-          <input
-            v-if="selectedColor === 'green'"
-            type="range"
-            min="0"
-            max="255"
+          <div>search album</div>
+          <div class="text-2xl">⊕</div>
+        </div>
+        <div class="flex flex-row mt-10 cursor-pointer">
+          <ColorSlider
+            v-for="color of colors"
+            :key="color"
+            :color="color"
+            :selected-color="selectedColor"
+            @pick-color="selectColor"
             v-model="colorRangeValue"
-            class="rounded-full min-w-12 h-12 bg-gradient-to-r from-white to-green-300 transition-[width] duration-500 ease-in-out appearance-none"
-            :class="[selectedColor === 'green' ? 'w-full ' : 'w-12 ']"
           />
         </div>
-        <div
-          class="rounded-full min-w-12 h-12 transition-[width] duration-500 ease-in-out"
-          :class="[
-            selectedColor === 'violet'
-              ? 'w-full bg-white'
-              : 'w-12 bg-violet-300',
-          ]"
-          @click="selectColor('violet')"
-        >
-          <input
-            v-if="selectedColor === 'violet'"
-            type="range"
-            min="0"
-            max="255"
-            v-model="colorRangeValue"
-            class="rounded-full min-w-12 h-12 bg-gradient-to-r from-white to-violet-300 transition-[width] duration-500 ease-in-out appearance-none"
-            :class="[selectedColor === 'violet' ? 'w-full ' : 'w-12 ']"
-          />
+        <div class="flex flex-col mt-10">
+          <textarea
+            spellcheck="false"
+            name="review"
+            maxlength="100"
+            cols="2"
+            rows="5"
+            class="resize-none rounded-3xl py-5 px-5 h-20"
+            v-model="albumReview"
+          ></textarea>
         </div>
-        <div
-          class="rounded-full min-w-12 h-12 bg-lime-300 transition-[width] duration-500 ease-in-out"
-          :class="[selectedColor === 'lime' ? 'w-full ' : 'w-12 ']"
-          @click="selectColor('lime')"
-        />
-        <div
-          class="rounded-full min-w-12 h-12 bg-yellow-300 transition-[width] duration-500 ease-in-out"
-          :class="[selectedColor === 'yellow' ? 'w-full ' : 'w-12 ']"
-          @click="selectColor('yellow')"
-        />
-        <div
-          class="rounded-full min-w-12 h-12 bg-blue-300 transition-[width] duration-500 ease-in-out"
-          :class="[selectedColor === 'blue' ? 'w-full' : 'w-12']"
-          @click="selectColor('blue')"
-        />
-        <div
-          class="rounded-full min-w-12 h-12 bg-sky-300 transition-[width] duration-500 ease-in-out"
-          :class="[selectedColor === 'sky' ? 'w-full' : 'w-12']"
-          @click="selectColor('sky')"
-        />
-      </section>
+      </div>
     </div>
   </div>
 </template>
-
-<style>
-input[type='range']::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 100%;
-  background: white;
-  border: 2px solid black;
-  cursor: pointer;
-}
-</style>
