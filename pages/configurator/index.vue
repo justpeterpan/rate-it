@@ -1,16 +1,52 @@
 <script setup lang="ts">
+import TemplateDefault from '~/components/TemplateDefault.vue'
+import TemplateMnml from '~/components/TemplateMnml.vue'
+
+const route = useRoute()
+
+const colors = ['green', 'violet', 'lime', 'yellow', 'blue', 'sky']
+
+// state
 const isOpen = useSearch()
 const selectedAlbum = useAlbum()
-const selectedColor = ref('violet')
-const colorRangeValue = ref(255)
-const calculatedOpacity = computed(() => colorRangeValue.value / 255)
-const colors = ['green', 'violet', 'lime', 'yellow', 'blue', 'sky']
-const albumReview = ref('')
 
-console.log('selectedAlbum', selectedAlbum.value)
+const colorRangeValue = defineModel('colorRangeValue', { default: 255 })
+const albumReview = defineModel('albumReview', { default: '' })
+const rating = defineModel({ default: '5' })
+
+const selectedColor = ref('violet')
+const isLoading = ref(false)
+const calculatedOpacity = computed(() => colorRangeValue.value / 255)
+
+const currentTemplate = computed(() => {
+  if (route.query.template === 'mnml') {
+    return TemplateMnml
+  }
+  if (route.query.template === 'default') {
+    return TemplateDefault
+  }
+  return TemplateDefault
+})
 
 function selectColor(color: string) {
   selectedColor.value = color
+}
+
+async function shareReview() {
+  isLoading.value = true
+  const data = await $fetch('/api/screenshot/', {
+    query: {
+      artist: selectedAlbum.value.artist,
+      album: selectedAlbum.value.album,
+      date: selectedAlbum.value.date,
+      cover: selectedAlbum.value.cover,
+      rating: rating.value,
+      notes: albumReview.value,
+      theme: 'light',
+    },
+  })
+  console.log(data)
+  isLoading.value = false
 }
 </script>
 <template>
@@ -22,7 +58,8 @@ function selectColor(color: string) {
       <div
         class="bg-white rounded-xl flex flex-col transition duration-500 ease-in-out"
       >
-        <TemplateMnml
+        <component
+          :is="currentTemplate"
           config
           :bg="selectedColor"
           :opacity-rgba="calculatedOpacity"
@@ -30,7 +67,7 @@ function selectColor(color: string) {
             artist: selectedAlbum.artist ?? 'artist',
             title: selectedAlbum.album ?? 'title',
             date: selectedAlbum.date ?? '01.01.1970',
-            rating: 5,
+            rating: rating,
             review: albumReview || 'your review',
             image:
               selectedAlbum.cover ??
@@ -68,6 +105,28 @@ function selectColor(color: string) {
             v-model="albumReview"
           ></textarea>
         </div>
+        <div class="flex flex-col mt-10">
+          <input
+            type="range"
+            name="rating"
+            id="rating"
+            :min="1"
+            :max="5"
+            step=".5"
+            v-model="rating"
+            class="appearance-none w-full bg-white rounded-full outline-none p-4"
+          />
+          <RatingSlider :rating="Number(rating)" />
+          <!-- TODO: make functional -->
+          <UToggle size="2xl" class="mt-10" />
+        </div>
+        <UButton
+          class="sticky bottom-2 left-0 bg-neutral-900 text-white p-4 rounded-full mt-10 hover:bg-neutral-500 hover:text-white justify-center transition duration-500 ease-in-out"
+          :loading="isLoading"
+          @click="shareReview"
+        >
+          Share Review
+        </UButton>
       </div>
     </div>
   </div>

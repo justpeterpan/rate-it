@@ -13,7 +13,7 @@ const props = withDefaults(
       artist: 'artist',
       title: 'title',
       date: 'release date',
-      rating: 5,
+      rating: '5',
       review: 'write your review',
       image: '',
     }),
@@ -25,7 +25,7 @@ type Album = {
   title?: string
   date?: string
   image?: string
-  rating: number
+  rating: string
   review?: string
 }
 
@@ -76,9 +76,7 @@ const bgColorsRgb: Record<string, string> = {
         <div class="text-lg pt-2 italic font-thin">
           "{{ props.album.review }}"
         </div>
-        <div class="text-9xl font-thin">
-          {{ '*'.repeat(props.album.rating) }}
-        </div>
+        <RatingSlider :rating="Number(props.album.rating)" />
       </section>
     </div>
     <div

@@ -21,6 +21,7 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
-    "@nuxt/ui": "^2.15.2"
+    "@nuxt/ui": "^2.15.2",
+    "@nuxtjs/svg-sprite": "^1.0.2"
   }
 }
