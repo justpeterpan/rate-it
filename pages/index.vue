@@ -7,7 +7,7 @@
       <NuxtLink to="configurator?template=mnml">
         <TemplateMnml
           :album="{
-            rating: '4',
+            rating: '5',
             artist: 'Burial',
             title: 'Awakening',
             date: '06.06.2022',
