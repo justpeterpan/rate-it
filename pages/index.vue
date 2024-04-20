@@ -4,10 +4,10 @@
       Select a template ↴
     </button>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-1">
-      <NuxtLink to="configurator">
+      <NuxtLink to="configurator?template=mnml">
         <TemplateMnml
           :album="{
-            rating: 4,
+            rating: '4',
             artist: 'Burial',
             title: 'Awakening',
             date: '06.06.2022',
