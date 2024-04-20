@@ -55,9 +55,8 @@ async function shareReview() {
     <div
       class="grid grid-flow-row sm:grid-flow-col sm:grid-cols-2 min-h-screen gap-1"
     >
-      <div
-        class="bg-white rounded-xl flex flex-col transition duration-500 ease-in-out"
-      >
+      <!-- template -->
+      <div class="bg-white rounded-xl transition duration-500 ease-in-out">
         <component
           :is="currentTemplate"
           config
@@ -75,7 +74,8 @@ async function shareReview() {
           }"
         />
       </div>
-      <div class="bg-neutral-100 rounded-xl flex flex-col p-20">
+      <!-- configuration -->
+      <div class="bg-neutral-100 rounded-xl flex flex-col p-5">
         <h1 class="text-7xl font-extrabold">New Album Review</h1>
         <div
           class="flex mt-10 h-12 w-full bg-white rounded-full justify-between items-center px-5 cursor-pointer"
@@ -117,7 +117,6 @@ async function shareReview() {
             class="appearance-none w-full bg-white rounded-full outline-none p-4"
           />
           <RatingSlider :rating="Number(rating)" />
-          <!-- TODO: make functional -->
           <UToggle size="2xl" class="mt-10" />
         </div>
         <UButton
