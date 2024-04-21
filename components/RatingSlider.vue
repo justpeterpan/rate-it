@@ -2,11 +2,11 @@
   <div class="flex flex-row gap-1 mt-4">
     <ClientOnly>
       <transition-group name="fade" tag="div" class="flex flex-row gap-1">
-        <SvgIcon
-          :name="star > fullStars ? 'half' : 'full'"
-          class="w-10 h-10"
+        <StarRating
+          :full="star > fullStars ? false : true"
           v-for="star in totalStars"
           :key="star"
+          :style="{ width: '40px', height: '40px' }"
         />
       </transition-group>
     </ClientOnly>

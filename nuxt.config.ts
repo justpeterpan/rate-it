@@ -20,5 +20,5 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@nuxt/ui', '@nuxtjs/svg-sprite'],
+  modules: ['@nuxt/ui', 'nuxt-svgo'],
 })

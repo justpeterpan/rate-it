@@ -12,7 +12,6 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.556.0",
     "@sparticuz/chromium": "^123.0.1",
-    "chrome-aws-lambda": "^10.1.0",
     "nuxt": "^3.11.2",
     "puppeteer-core": "^22.6.5",
     "unstorage": "^1.10.2",
@@ -22,6 +21,6 @@
   },
   "devDependencies": {
     "@nuxt/ui": "^2.15.2",
-    "@nuxtjs/svg-sprite": "^1.0.2"
+    "nuxt-svgo": "^4.0.0"
   }
 }
