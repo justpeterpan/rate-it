@@ -14,7 +14,7 @@
       min="0"
       max="255"
       v-model="colorRange"
-      class="rounded-full min-w-12 h-12 bg-gradient-to-r from-white transition-[width] duration-500 ease-in-out appearance-none"
+      class="p-2 rounded-full min-w-12 h-12 bg-gradient-to-r from-white transition-[width] duration-500 ease-in-out appearance-none"
       :class="[
         selectedColor === `${props.color}`
             ? `w-full ${gradientColors[color as keyof typeof gradientColors]}`
@@ -60,11 +60,11 @@ const bgColors: Record<string, string> = {
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 32px;
+  height: 32px;
   border-radius: 100%;
   background: rgba(255, 255, 255, 0.9);
-  border: 2px solid black;
+  border: 4px solid black;
   cursor: pointer;
 }
 </style>

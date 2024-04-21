@@ -114,7 +114,7 @@ async function shareReview() {
             :max="5"
             step=".5"
             v-model="rating"
-            class="appearance-none w-full bg-white rounded-full outline-none p-4"
+            class="appearance-none w-full bg-white rounded-full outline-none p-2"
           />
           <RatingSlider :rating="Number(rating)" />
           <UToggle size="2xl" class="mt-10" />
