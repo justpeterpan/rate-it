@@ -18,8 +18,12 @@ const selectedColor = ref('violet')
 const isLoading = ref(false)
 const calculatedOpacity = computed(() => colorRangeValue.value / 255)
 
+const screenshot = ref('')
+const currentTemplateValue = ref('default')
+
 const currentTemplate = computed(() => {
   if (route.query.template === 'mnml') {
+    currentTemplateValue.value = 'mnml'
     return TemplateMnml
   }
   if (route.query.template === 'default') {
@@ -36,16 +40,19 @@ async function shareReview() {
   isLoading.value = true
   const data = await $fetch('/api/screenshot/', {
     query: {
-      artist: selectedAlbum.value.artist,
       album: selectedAlbum.value.album,
-      date: selectedAlbum.value.date,
+      artist: selectedAlbum.value.artist,
+      bgColor: selectedColor.value,
       cover: selectedAlbum.value.cover,
+      date: selectedAlbum.value.date,
+      opacity: calculatedOpacity.value,
       rating: rating.value,
-      notes: albumReview.value,
+      review: albumReview.value,
+      template: currentTemplateValue.value,
       theme: 'light',
     },
   })
-  console.log(data)
+  screenshot.value = data
   isLoading.value = false
 }
 </script>
@@ -127,6 +134,9 @@ async function shareReview() {
           Share Review
         </UButton>
       </div>
+    </div>
+    <div>
+      <img :src="screenshot" alt="screenshot of review" v-if="screenshot" />
     </div>
   </div>
 </template>

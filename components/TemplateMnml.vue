@@ -69,7 +69,9 @@ const bgColorsRgb: Record<string, string> = {
         <h2 class="text-2xl uppercase mt-8 font-semibold">
           {{ props.album.artist }}
         </h2>
-        <h3 class="text-2xl uppercase font-light">{{ props.album.title }}</h3>
+        <h3 class="text-2xl uppercase font-light text-center">
+          {{ props.album.title }}
+        </h3>
         <h4 class="text-xl uppercase font-extralight">
           {{ props.album.date }}
         </h4>

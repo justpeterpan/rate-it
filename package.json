@@ -10,14 +10,15 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.556.0",
-    "@sparticuz/chromium": "^123.0.1",
+    "@aws-sdk/client-s3": "3.554.0",
+    "@sparticuz/chromium": "123.0.1",
+    "chrome-aws-lambda": "10.1.0",
     "nuxt": "^3.11.2",
-    "puppeteer-core": "^22.6.5",
-    "unstorage": "^1.10.2",
-    "valibot": "^0.30.0",
-    "vue": "^3.4.23",
-    "vue-router": "^4.3.2"
+    "puppeteer-core": "22.6.4",
+    "unstorage": "1.10.2",
+    "valibot": "0.30.0",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@nuxt/ui": "^2.15.2",
