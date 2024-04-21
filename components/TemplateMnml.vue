@@ -49,7 +49,7 @@ const bgColorsRgb: Record<string, string> = {
   >
     <div
       class="flex flex-col p-10 border-2 border-black rounded-3xl transition duration-500 ease-in-out"
-      :class="[{ 'group-hover:-translate-y-8': !props.config }]"
+      :class="[{ 'group-hover:-translate-y-6': !props.config }]"
       :style="{
         backgroundColor: `rgba(${bgColorsRgb[bg]}, ${props.opacityRgba})`,
       }"
@@ -81,7 +81,7 @@ const bgColorsRgb: Record<string, string> = {
     </div>
     <div
       v-if="!props.config"
-      class="text-2xl left-[44%] absolute -bottom-2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-12 transition duration-500 ease-in-out"
+      class="text-2xl left-[44%] absolute -bottom-2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-8 transition duration-500 ease-in-out"
     >
       MNML
     </div>

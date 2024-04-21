@@ -14,9 +14,6 @@ importers:
       '@sparticuz/chromium':
         specifier: ^123.0.1
         version: 123.0.1
-      chrome-aws-lambda:
-        specifier: ^10.1.0
-        version: 10.1.0(puppeteer-core@22.6.5)
       nuxt:
         specifier: ^3.11.2
         version: 3.11.2(@parcel/watcher@2.4.1)(@types/node@20.12.7)(@unocss/reset@0.59.4)(encoding@0.1.13)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.14.3))(vue@3.4.23))(fuse.js@6.6.2)(ioredis@5.4.1)(rollup@4.14.3)(terser@5.30.3)(unocss@0.59.4(postcss@8.4.38)(rollup@4.14.3)(vite@5.2.9(@types/node@20.12.7)(terser@5.30.3)))(vite@5.2.9(@types/node@20.12.7)(terser@5.30.3))
@@ -39,9 +36,9 @@ importers:
       '@nuxt/ui':
         specifier: ^2.15.2
         version: 2.15.2(focus-trap@7.5.4)(nuxt@3.11.2(@parcel/watcher@2.4.1)(@types/node@20.12.7)(@unocss/reset@0.59.4)(encoding@0.1.13)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.14.3))(vue@3.4.23))(fuse.js@6.6.2)(ioredis@5.4.1)(rollup@4.14.3)(terser@5.30.3)(unocss@0.59.4(postcss@8.4.38)(rollup@4.14.3)(vite@5.2.9(@types/node@20.12.7)(terser@5.30.3)))(vite@5.2.9(@types/node@20.12.7)(terser@5.30.3)))(rollup@4.14.3)(vite@5.2.9(@types/node@20.12.7)(terser@5.30.3))(vue@3.4.23)
-      '@nuxtjs/svg-sprite':
-        specifier: ^1.0.2
-        version: 1.0.2(rollup@4.14.3)
+      nuxt-svgo:
+        specifier: ^4.0.0
+        version: 4.0.0(rollup@4.14.3)(vue@3.4.23)
 
 packages:
 
@@ -760,9 +757,6 @@ packages:
 
   '@nuxtjs/color-mode@3.4.0':
     resolution: {integrity: sha512-rS51nG3zW8ksOwNubIP3BPQ+vBL0r2M6td1kkB/VaR1e1uVtNfWlBPfZjb604bgNCE2AeRNqaI0CrxkfnQ6h6Q==}
-
-  '@nuxtjs/svg-sprite@1.0.2':
-    resolution: {integrity: sha512-BAxo+r9Ub9pgrzGEH3eRZmQZ1icGxr5hB8aKgAHtb+4YZMbrS+H+RZUiP4mn6VXLFPsWCh0Ea+wjr9LfIjOgTQ==}
 
   '@nuxtjs/tailwindcss@6.12.0':
     resolution: {integrity: sha512-vXvEq8z177TQcx0tc10mw3O6T9WeN0iTL8hIKGDfidmr+HKReexJU01aPgHefFrCu4LJB70egYFYnywzB9lMyQ==}
@@ -1824,12 +1818,6 @@ packages:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
 
-  chrome-aws-lambda@10.1.0:
-    resolution: {integrity: sha512-NZQVf+J4kqG4sVhRm3WNmOfzY0OtTSm+S8rg77pwePa9RCYHzhnzRs8YvNI6L9tALIW6RpmefWiPURt3vURXcw==}
-    engines: {node: '>= 10.16'}
-    peerDependencies:
-      puppeteer-core: ^10.1.0
-
   chromium-bidi@0.5.17:
     resolution: {integrity: sha512-BqOuIWUgTPj8ayuBFJUYCCuwIcwjBsb3/614P7tt1bEPJ4i1M0kCdIl0Wi9xhtswBXnfO2bTpTMkHD71H8rJMg==}
     peerDependencies:
@@ -2804,13 +2792,6 @@ packages:
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
 
-  lambdafs@2.1.1:
-    resolution: {integrity: sha512-x5k8JcoJWkWLvCVBzrl4pzvkEHSgSBqFjg3Dpsc4AcTMq7oUMym4cL/gRTZ6VM4mUMY+M0dIbQ+V1c1tsqqanQ==}
-    engines: {node: '>= 10.16'}
-    hasBin: true
-    bundledDependencies:
-      - tar-fs
-
   launch-editor@2.6.1:
     resolution: {integrity: sha512-eB/uXmFVpY4zezmGp5XtU21kwo7GBbKB+EQ+UZeWtGb9yAM5xt/Evk+lYH3eRNAtId+ej4u7TYPFZ07w4s7rRw==}
 
@@ -3184,6 +3165,21 @@ packages:
 
   nuxt-icon@0.6.10:
     resolution: {integrity: sha512-S9zHVA66ox4ZSpMWvCjqKZC4ZogC0s2z3vZs+M4D95YXGPEXwxDZu+insMKvkbe8+k7gvEmtTk0eq3KusKlxiw==}
+
+  nuxt-svgo@4.0.0:
+    resolution: {integrity: sha512-Oeeexe6F+z64RlYl++0JaiCqiTazrnGO/Xtg8Nw1knhcb+qnzOxm12tiHKDyt8PRvbSGUo8rgjggdbRuossLxA==}
+    peerDependencies:
+      svgo-loader: ^4.0.0
+      vue: '>=3.2.13'
+      vue-loader: ^17.0.0
+      vue-svg-loader: 0.17.0-beta.2
+    peerDependenciesMeta:
+      svgo-loader:
+        optional: true
+      vue-loader:
+        optional: true
+      vue-svg-loader:
+        optional: true
 
   nuxt@3.11.2:
     resolution: {integrity: sha512-Be1d4oyFo60pdF+diBolYDcfNemoMYM3R8PDjhnGrs/w3xJoDH1YMUVWHXXY8WhSmYZI7dyBehx/6kTfGFliVA==}
@@ -5795,14 +5791,6 @@ snapshots:
       - rollup
       - supports-color
 
-  '@nuxtjs/svg-sprite@1.0.2(rollup@4.14.3)':
-    dependencies:
-      '@nuxt/kit': 3.11.2(rollup@4.14.3)
-      svgo: 3.2.0
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-
   '@nuxtjs/tailwindcss@6.12.0(rollup@4.14.3)':
     dependencies:
       '@nuxt/kit': 3.11.2(rollup@4.14.3)
@@ -7168,11 +7156,6 @@ snapshots:
 
   chownr@2.0.0: {}
 
-  chrome-aws-lambda@10.1.0(puppeteer-core@22.6.5):
-    dependencies:
-      lambdafs: 2.1.1
-      puppeteer-core: 22.6.5
-
   chromium-bidi@0.5.17(devtools-protocol@0.0.1262051):
     dependencies:
       devtools-protocol: 0.0.1262051
@@ -8137,8 +8120,6 @@ snapshots:
 
   kolorist@1.8.0: {}
 
-  lambdafs@2.1.1: {}
-
   launch-editor@2.6.1:
     dependencies:
       picocolors: 1.0.0
@@ -8597,6 +8578,16 @@ snapshots:
       - supports-color
       - vite
       - vue
+
+  nuxt-svgo@4.0.0(rollup@4.14.3)(vue@3.4.23):
+    dependencies:
+      '@nuxt/kit': 3.11.2(rollup@4.14.3)
+      mini-svg-data-uri: 1.4.4
+      svgo: 3.2.0
+      vue: 3.4.23
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
 
   nuxt@3.11.2(@parcel/watcher@2.4.1)(@types/node@20.12.7)(@unocss/reset@0.59.4)(encoding@0.1.13)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.14.3))(vue@3.4.23))(fuse.js@6.6.2)(ioredis@5.4.1)(rollup@4.14.3)(terser@5.30.3)(unocss@0.59.4(postcss@8.4.38)(rollup@4.14.3)(vite@5.2.9(@types/node@20.12.7)(terser@5.30.3)))(vite@5.2.9(@types/node@20.12.7)(terser@5.30.3)):
     dependencies:
