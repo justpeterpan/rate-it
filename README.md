@@ -8,7 +8,7 @@ Built with [Nuxt](https://nuxt.com) and [Nuxt UI](https://ui.nuxt.com)
 - [x] Create a basic webapp
 - [x] dark/light mode toggle
 - [x] container queries to make the site more responsive
-- [ ] fix typing errors
+- [x] fix typing errors
 - [ ] provide multiple themes
 - [ ] save ratings to local storage
   - [ ] save ratings to a database
