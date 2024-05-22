@@ -66,7 +66,7 @@ const bgColorsRgb: Record<string, string> = {
         />
       </figure>
       <section class="flex flex-col items-center">
-        <h2 class="text-2xl uppercase mt-8 font-semibold">
+        <h2 class="text-2xl uppercase mt-8 font-semibold text-center">
           {{ props.album.artist }}
         </h2>
         <h3 class="text-2xl uppercase font-light text-center">

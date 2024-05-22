@@ -19,6 +19,7 @@ const isLoading = ref(false)
 const calculatedOpacity = computed(() => colorRangeValue.value / 255)
 
 const screenshot = ref('')
+const isShareModalOpen = defineModel('isShareModalOpen', { default: false })
 const currentTemplateValue = ref('default')
 
 const currentTemplate = computed(() => {
@@ -53,6 +54,7 @@ async function shareReview() {
     },
   })
   screenshot.value = data
+  isShareModalOpen.value = true
   isLoading.value = false
 }
 </script>
@@ -136,7 +138,21 @@ async function shareReview() {
       </div>
     </div>
     <div>
-      <img :src="screenshot" alt="screenshot of review" v-if="screenshot" />
+      <UModal
+        v-model="isShareModalOpen"
+        :ui="{
+          margin: 'sm:my-0',
+          width: 'sm:w-[430px]',
+          overlay: { background: 'bg-gray-800/95' },
+        }"
+      >
+        <img
+          :src="screenshot"
+          alt="screenshot of review"
+          v-if="screenshot"
+          class="w-[430px] h-[678px] rounded-lg"
+        />
+      </UModal>
     </div>
   </div>
 </template>
