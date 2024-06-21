@@ -35,7 +35,9 @@ async function takeServerScreenshot() {
   screenshotTaken.value = data
   try {
     const image = await $fetch(data)
-    const files = [new File([image], 'review.jpg', { type: 'image/jpeg' })]
+    const files = [
+      new File([image as BlobPart], 'review.jpg', { type: 'image/jpeg' }),
+    ]
     if (navigator.share) {
       navigator
         .share({
