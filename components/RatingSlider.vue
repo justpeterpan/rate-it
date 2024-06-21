@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row gap-1 mt-4">
+  <div class="flex flex-row gap-1 mt-4 text-black">
     <ClientOnly>
       <transition-group name="fade" tag="div" class="flex flex-row gap-1">
         <StarRating

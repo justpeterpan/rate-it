@@ -20,7 +20,7 @@
     <g transform="matrix(1,0,0,1.05982,-0.0668735,-1.13632)">
       <path
         d="M20.067,2.016L20.067,37.871"
-        style="fill: none; stroke: black; stroke-width: 0.97px"
+        style="fill: none; stroke: currentColor; stroke-width: 0.97px"
       />
     </g>
     <g
@@ -28,7 +28,7 @@
     >
       <path
         d="M20.067,2.016L20.067,37.871"
-        style="fill: none; stroke: black; stroke-width: 0.97px"
+        style="fill: none; stroke: currentColor; stroke-width: 0.97px"
       />
     </g>
     <g
@@ -36,7 +36,7 @@
     >
       <path
         d="M20.067,2.016L20.067,37.871"
-        style="fill: none; stroke: black; stroke-width: 0.97px"
+        style="fill: none; stroke: currentColor; stroke-width: 0.97px"
       />
     </g>
     <g
@@ -44,7 +44,7 @@
     >
       <path
         d="M20.067,2.016L20.067,37.871"
-        style="fill: none; stroke: black; stroke-width: 0.97px"
+        style="fill: none; stroke: currentColor; stroke-width: 0.97px"
       />
     </g>
   </svg>

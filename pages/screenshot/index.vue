@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white rounded-xl transition duration-500 ease-in-out min-h-screen"
+    class="bg-white dark:bg-neutral-800 rounded-xl transition duration-500 ease-in-out min-h-screen"
   >
     <component
       id="screenshot"

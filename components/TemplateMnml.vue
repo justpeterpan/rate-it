@@ -41,7 +41,7 @@ const bgColorsRgb: Record<string, string> = {
 
 <template>
   <div
-    class="flex flex-col text-black p-8 rounded-xl group relative transition duration-500 ease-in-out items-center"
+    class="flex flex-col text-black bg-white dark:bg-neutral-800 p-8 rounded-xl group relative transition duration-500 ease-in-out items-center"
     :class="[
       { 'cursor-auto': props.config },
       props.config ? 'bg-white' : 'bg-white hover:bg-violet-300',

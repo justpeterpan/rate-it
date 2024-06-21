@@ -65,7 +65,9 @@ async function shareReview() {
       class="grid grid-flow-row sm:grid-flow-col sm:grid-cols-2 min-h-screen gap-1"
     >
       <!-- template -->
-      <div class="bg-white rounded-xl transition duration-500 ease-in-out">
+      <div
+        class="bg-white dark:bg-neutral-800 rounded-xl transition duration-500 ease-in-out"
+      >
         <component
           :is="currentTemplate"
           config
@@ -84,10 +86,12 @@ async function shareReview() {
         />
       </div>
       <!-- configuration -->
-      <div class="bg-neutral-100 rounded-xl flex flex-col p-5">
+      <div
+        class="bg-neutral-100 dark:bg-neutral-800 rounded-xl flex flex-col p-5"
+      >
         <h1 class="text-7xl font-extrabold">New Album Review</h1>
         <div
-          class="flex mt-10 h-12 w-full bg-white rounded-full justify-between items-center px-5 cursor-pointer"
+          class="flex mt-10 h-12 w-full bg-white dark:bg-neutral-700 rounded-full justify-between items-center px-5 cursor-pointer"
           @click="isOpen = true"
         >
           <div>search album</div>
@@ -108,9 +112,10 @@ async function shareReview() {
             spellcheck="false"
             name="review"
             maxlength="100"
+            placeholder="your review"
             cols="2"
             rows="5"
-            class="resize-none rounded-3xl py-5 px-5 h-20"
+            class="resize-none bg-white dark:bg-neutral-700 ring-4 ring-primary rounded-3xl py-5 px-5 h-20"
             v-model="albumReview"
           ></textarea>
         </div>
@@ -123,10 +128,8 @@ async function shareReview() {
             :max="5"
             step=".5"
             v-model="rating"
-            class="appearance-none w-full bg-white rounded-full outline-none p-2"
+            class="appearance-none w-full bg-white dark:bg-neutral-700 rounded-full outline-none p-2"
           />
-          <RatingSlider :rating="Number(rating)" />
-          <UToggle size="2xl" class="mt-10" />
         </div>
         <UButton
           class="sticky bottom-2 left-0 bg-neutral-900 text-white p-4 rounded-full mt-10 hover:bg-neutral-500 hover:text-white justify-center transition duration-500 ease-in-out"
@@ -142,15 +145,15 @@ async function shareReview() {
         v-model="isShareModalOpen"
         :ui="{
           margin: 'sm:my-0',
-          width: 'sm:w-[430px]',
-          overlay: { background: 'bg-gray-800/95' },
+          width: 'sm:w-[320px]',
+          overlay: { background: 'dark:bg-black' },
         }"
       >
         <img
           :src="screenshot"
           alt="screenshot of review"
           v-if="screenshot"
-          class="w-[430px] h-[678px] rounded-lg"
+          class="w-full h-full rounded-lg"
         />
       </UModal>
     </div>
